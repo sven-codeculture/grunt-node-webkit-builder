@@ -12,6 +12,7 @@ var fs = require('fs'),
 // Mostly copied from grunt-contrib-compress
 module.exports = function(grunt) {
     var utils = require('./utils')(grunt);
+    var winUtils = require('./win_utils')(grunt);
 
     // Generate a Zip file from a directory and a destination path
     // and returns back a read stream
@@ -59,7 +60,7 @@ module.exports = function(grunt) {
         }
     };
 
-    exports.generateRelease = function(relaseFile, zipPath, type, nwpath) {
+    exports.generateRelease = function(relaseFile, zipPath, type, nwpath, winOptions) {
         var releaseDone = Q.defer(),
             ws = new Writable(function() {
                 return fs.createWriteStream(relaseFile);
@@ -77,7 +78,15 @@ module.exports = function(grunt) {
             if(type.indexOf('linux') !== -1) {
                 fs.chmodSync(relaseFile, '0755');
             }
-            releaseDone.resolve(type);
+            if(type.indexOf('win') !== -1) {
+                if(winOptions.ico && winOptions.resHacker) {
+                    winUtils.replaceIcon(winOptions.resHacker, relaseFile, winOptions.ico).then(function() {releaseDone.resolve(type);}, function(err) { grunt.log.error(err);});
+                } else {
+                    releaseDone.resolve(type);
+                }
+            } else {
+               releaseDone.resolve(type); 
+            }
         });
 
         if(type === 'mac') {
