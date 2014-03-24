@@ -20,7 +20,7 @@ module.exports = function(grunt) {
   var invokeResourceHacker = function(wine, resHackerExe, params) {
     var defer = Q.defer();
     resHackerExe = path.resolve(resHackerExe);
-    var cmd = wine ? 'wine cmd' : resHackerExe.replace(/ /g, '\\ ');
+    var cmd = wine ? 'wine cmd /C' : resHackerExe.replace(/ /g, '\\ ');
     params = wine ? ['"z:\\'+resHackerExe.replace(/ /g, '\\ ').replace(/\//g, '\\')+'"'].concat(params) : params;
     if (fs.existsSync(resHackerExe)) {
       console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
