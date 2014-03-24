@@ -41,8 +41,8 @@ module.exports = function(grunt) {
     var defer = Q.defer();
     var isWin = !!process.platform.match(/^win/);
     var params = [
-      '-addoverwrite', '"'+path.resolve(exeFile)+'",', '"'+path.resolve(exeFile)+'",',
-      '"'+path.resolve(newIcon)+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033', '& exit'
+      '-addoverwrite', '"z:\\'+path.resolve(exeFile).replace(/ /g, '\\ ')+'",', '"z:\\'+path.resolve(exeFile).replace(/ /g, '\\ ')+'",',
+        '"z:\\'+path.resolve(newIcon).replace(/ /g, '\\ ')+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033', '& exit'
     ];
     if (!fs.existsSync(path.resolve(newIcon))) {
       defer.reject('Can not find windows icon at "'+path.resolve(newIcon)+'"!');
