@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     var defer = Q.defer();
     resHackerExe = path.resolve(resHackerExe);
     var cmd = wine ? 'wine cmd' : resHackerExe.replace(/ /g, '\\ ');
-    params = wine ? ['"z:\\'+resHackerExe.replace(/ /g, '\\ ').replace(/\//g, '\\ ')+'"'].concat(params) : params;
+    params = wine ? ['"z:\\'+resHackerExe.replace(/ /g, '\\ ').replace(/\//g, '\\')+'"'].concat(params) : params;
     if (fs.existsSync(resHackerExe)) {
       console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
       require('child_process').exec(cmd + ' ' + params.join(' '), function(err, stdout, stderr) {
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     var defer = Q.defer();
     var isWin = !!process.platform.match(/^win/);
     var params = [
-      '-addoverwrite', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\')+'",', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\ ')+'",',
+      '-addoverwrite', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\')+'",', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\')+'",',
         '"z:\\'+path.resolve(newIcon).replace(/\//g, '\\')+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033', '& exit'
     ];
     if (!fs.existsSync(path.resolve(newIcon))) {
