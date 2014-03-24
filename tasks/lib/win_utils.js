@@ -20,10 +20,10 @@ module.exports = function(grunt) {
   var invokeResourceHacker = function(wine, resHackerExe, params) {
     var defer = Q.defer();
     resHackerExe = path.resolve(resHackerExe);
-    var cmd = wine ? 'wine cmd /C' : resHackerExe.replace(/ /g, '\\ ');
-    params = wine ? ['"z:\\'+resHackerExe.replace(/ /g, '\\ ').replace(/\//g, '\\')+'"'].concat(params) : params;
+    var cmd = wine ? 'wine' : resHackerExe.replace(/ /g, '\\ ');
+    params = wine ? [resHackerExe.replace(/ /g, '\\ ')].concat(params) : params;
     if (fs.existsSync(resHackerExe)) {
-      console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
+      // Debugging: console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
       require('child_process').exec(cmd + ' ' + params.join(' '), function(err, stdout, stderr) {
         if (!err) {
           defer.resolve(true, stdout, stderr);
@@ -41,8 +41,8 @@ module.exports = function(grunt) {
     var defer = Q.defer();
     var isWin = !!process.platform.match(/^win/);
     var params = [
-      '-addoverwrite', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\')+'",', '"z:\\'+path.resolve(exeFile).replace(/\//g, '\\')+'",',
-        '"z:\\'+path.resolve(newIcon).replace(/\//g, '\\')+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033', '& exit'
+      '-addoverwrite', '"'+path.resolve(exeFile)+'",', '"'+path.resolve(exeFile)+'",',
+      '"'+path.resolve(newIcon)+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033'
     ];
     if (!fs.existsSync(path.resolve(newIcon))) {
       defer.reject('Can not find windows icon at "'+path.resolve(newIcon)+'"!');
