@@ -20,7 +20,7 @@ module.exports = function(grunt) {
   var invokeResourceHacker = function(wine, resHackerExe, params) {
     var defer = Q.defer();
     resHackerExe = path.resolve(resHackerExe);
-    var cmd = wine ? 'wine' : resHackerExe.replace(/ /g, '\\ ');
+    var cmd = wine ? 'wine cmd' : resHackerExe.replace(/ /g, '\\ ');
     params = wine ? [resHackerExe.replace(/ /g, '\\ ')].concat(params) : params;
     if (fs.existsSync(resHackerExe)) {
       // Debugging: console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     if (!isWin) {
       isWineInstalled().then(function(hasWine) {
         if (hasWine) {
-          invokeResourceHacker('wine', resHackerExe, params).then(defer.resolve, defer.reject);
+          invokeResourceHacker('wine cmd', resHackerExe, params).then(defer.resolve, defer.reject);
         } else {
           defer.reject('Wine is not installed!');
         }
