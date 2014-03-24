@@ -1,6 +1,7 @@
 var plist = require('plist'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    Q = require('q');
 
 
 module.exports = function(grunt) {
@@ -92,6 +93,20 @@ module.exports = function(grunt) {
 
     exports.pathDepth = function(absolutePath) {
         return absolutePath.split(path.sep).length;
+    };
+
+    exports.copyFile = function(src, dest) {
+        var d = Q.defer();
+        var stats = fs.lstatSync(src);
+        try {
+            grunt.file.copy(src, dest);
+            fs.chmodSync(dest, stats.mode);
+            d.resolve();
+        } catch(err) {
+            d.reject(err);
+        }
+
+        return d.promise;
     };
 
     return exports;

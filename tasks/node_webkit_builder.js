@@ -10,7 +10,8 @@
 var Q = require('q'),
   path = require('path'),
   fs = require('fs'),
-  async = require('async');
+  async = require('async'),
+  _ = require('lodash');
 
 module.exports = function(grunt) {
   // ***************************************************************************
@@ -26,11 +27,10 @@ module.exports = function(grunt) {
 
     var self = this,
       done = this.async(), // This is async so make sure we initalize done
-      _ = grunt.util._,
       package_path = false,
       downloadDone = [],
       options = this.options({
-          version: '0.7.5',
+          version: '0.9.2',
           app_name: null,
           app_version: null,
           build_dir: null, // Path where
@@ -39,10 +39,12 @@ module.exports = function(grunt) {
           mac: true,
           linux32: false,
           linux64: false,
-          download_url: 'https://s3.amazonaws.com/node-webkit/',
+          mac_icns: false,
+          download_url: 'http://dl.node-webkit.org/',
           timestamped_builds: false,
           credits: false,
           keep_nw: false,
+          zip: false,  // Do not zip app.nw on OS X
           win_ico: null,
           res_hacker: null
       }),
@@ -98,6 +100,16 @@ module.exports = function(grunt) {
       options.app_version = options.app_version || packageInfo.version;
     }
 
+    // Do we need to build a zip
+    var needsZip = (
+      // If zip is forced to true
+      options.zip ||
+
+      // We are building for one of these platforms
+      // that requires a zip
+      _.any(_.pick(options, "win", "linux32", "linux64"))
+    );
+
     // Generate the release path
     var release_path = path.resolve(
       options.build_dir,
@@ -115,7 +127,10 @@ module.exports = function(grunt) {
     grunt.file.mkdir(release_path);
 
     // Compress the project into the release path
-    downloadDone.push(compress.generateZip(buildFiles, releaseFile));
+    if(needsZip) {
+      downloadDone.push(compress.generateZip(buildFiles, releaseFile));
+    }
+
 
     // Download and unzip / untar the needed files
     webkitFiles.forEach(function(plattform) {
@@ -222,7 +237,18 @@ module.exports = function(grunt) {
         });
 
         // Let's create the release
-        generateDone.push(
+        if(plattform.type === 'mac' && options.zip === false) {
+          // Don't zip for OS X if specified
+          // Allows faster app booting
+          generateDone.push(
+          compress.generateFolder(
+            buildFiles,
+            releasePathApp,
+            plattform.type
+          ));
+        } else {
+          // Generate zip
+          generateDone.push(
           compress.generateRelease(
             releasePathApp,
             zipFile,
@@ -230,7 +256,9 @@ module.exports = function(grunt) {
             (plattform.type !== 'mac' ? path.resolve(plattform.dest, plattform.nwpath) : null),
             (plattform.type==='win' ? { ico: options.win_ico, resHacker:options.res_hacker } : {})
           )
-        );
+          );
+        }
+
       });
 
       Q.all(generateDone).done(function(plattforms) {

@@ -1,7 +1,7 @@
 {
   "name": "grunt-node-webkit-builder",
   "description": "Let's you build your node webkit apps with grunt",
-  "version": "0.1.11",
+  "version": "0.1.18",
   "homepage": "https://github.com/mllrsohn/grunt-node-webkit-builder",
   "author": {
     "name": "Steffen Müller",
@@ -38,24 +38,25 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-nodeunit": "*",
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-release": "~0.6.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.2"
   },
   "keywords": [
     "gruntplugin"
   ],
   "dependencies": {
-    "q": "~0.9.6",
-    "request": "~2.22.0",
-    "unzip": "~0.1.8",
+    "request": "~2.33.0",
+    "unzip": "~0.1.9",
     "async": "~0.2.9",
-    "tar": "~0.1.18",
+    "tar": "~0.1.19",
     "lazystream": "~0.1.0",
-    "archiver": "~0.4.6",
+    "archiver": "~0.5.2",
     "zip": "~1.1.1",
-    "plist": "~0.4.3"
+    "plist": "~0.4.3",
+    "q": "~1.0.0",
+    "lodash": "~2.4.1"
   }
 }

@@ -20,9 +20,7 @@ module.exports = function(grunt) {
         var zipDone = Q.defer(),
             destFiles = [],
             archive = archiver('zip'),
-            destStream = new Writable(function() {
-                return fs.createWriteStream(dest);
-            });
+            destStream =  fs.createWriteStream(dest);
 
         // Resolve on close
         destStream.on('finish', zipDone.resolve);
@@ -51,6 +49,21 @@ module.exports = function(grunt) {
         return zipDone.promise;
     };
 
+    exports.generateFolder = function(files, dest, type) {
+        return Q.all(files.map(function(srcFile) {
+            return utils.copyFile(
+                srcFile.src,
+                path.join(
+                    dest,
+                    srcFile.dest
+                )
+            );
+        }))
+        .then(function() {
+            return type;
+        });
+    };
+
     exports.cleanUpRelease = function(nwPath) {
 
         if(grunt.file.exists(nwPath)) {
@@ -61,13 +74,10 @@ module.exports = function(grunt) {
     };
 
     exports.generateRelease = function(relaseFile, zipPath, type, nwpath, winOptions) {
+        console.log(relaseFile, zipPath, type, nwpath);
         var releaseDone = Q.defer(),
-            ws = new Writable(function() {
-                return fs.createWriteStream(relaseFile);
-            }),
-            zipStream = new Readable(function() {
-                return fs.createReadStream(zipPath);
-            }),
+            ws = fs.createWriteStream(relaseFile),
+            zipStream = fs.createReadStream(zipPath),
             nwpath_rs;
 
         ws.on('error', function(err) {
