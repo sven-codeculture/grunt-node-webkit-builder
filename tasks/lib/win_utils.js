@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     var cmd = wine ? 'wine cmd' : resHackerExe.replace(/ /g, '\\ ');
     params = wine ? [resHackerExe.replace(/ /g, '\\ ')].concat(params) : params;
     if (fs.existsSync(resHackerExe)) {
-      // Debugging: console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
+      console.log('executing: <'+cmd + ' ' + params.join(' ')+'>');
       require('child_process').exec(cmd + ' ' + params.join(' '), function(err, stdout, stderr) {
         if (!err) {
           defer.resolve(true, stdout, stderr);
