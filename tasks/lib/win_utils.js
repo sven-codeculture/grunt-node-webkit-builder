@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     var isWin = !!process.platform.match(/^win/);
     var params = [
       '-addoverwrite', '"'+path.resolve(exeFile)+'",', '"'+path.resolve(exeFile)+'",',
-      '"'+path.resolve(newIcon)+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033'
+      '"'+path.resolve(newIcon)+'",', 'ICONGROUP,', 'IDR_MAINFRAME,', '1033', '& exit'
     ];
     if (!fs.existsSync(path.resolve(newIcon))) {
       defer.reject('Can not find windows icon at "'+path.resolve(newIcon)+'"!');
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     if (!isWin) {
       isWineInstalled().then(function(hasWine) {
         if (hasWine) {
-          invokeResourceHacker('wine cmd', resHackerExe, params).then(defer.resolve, defer.reject);
+          invokeResourceHacker('wine', resHackerExe, params).then(defer.resolve, defer.reject);
         } else {
           defer.reject('Wine is not installed!');
         }
