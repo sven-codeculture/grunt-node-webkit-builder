@@ -24,7 +24,7 @@ grunt.loadNpmTasks('grunt-node-webkit-builder');
 
 #### options.version
 Type: `String`
-Default value: `'0.7.5'`
+Default value: `'0.9.2'`
 
 The version of node-webkit you want to use. [Here is a list](https://github.com/rogerwang/node-webkit/wiki/Downloads-of-old-versions) of all available releases
 
@@ -104,10 +104,15 @@ This will keep the zipped .nw file in the releases folder
 
 #### options.download_url
 Type: `String`
-Default value: `https://s3.amazonaws.com/node-webkit/`
+Default value: `http://dl.node-webkit.org/`
 
 The URL where the prebuilt binaries are. Only change this if you know what you are doing
 
+#### options.zip
+Type: `Boolean`
+Default value: `false`
+
+MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files.
 
 ### Usage Examples
 
@@ -121,21 +126,18 @@ grunt.initConfig({
         linux32: false, // We don't need linux32
         linux64: false // We don't need linux64
     },
-    src: ['./example/public/**/*'] // Your node-wekit app
+    src: ['./example/public/**/*'] // Your node-webkit app
   },
 })
 ```
 
 
 ## To Do:
-- Test building on Windows and Linux machines
-
-## Known Issue
-This is the first relase so there might be bugs. One known issue is that the download sometimes fails. If this is the case just try to run the task again
+- Port the logic into a [separate npm module](https://github.com/mllrsohn/node-webkit-builder) and make a wrapper for grunt/gulp/what-ever-the-next-thing-is 
 
 
 ## Release History
-- 2013-09-19    Removed config merging (but keept the lookup for version number and name), added keep_nw option, fixed various small bugs.
+- 2013-09-19    Removed config merging (but kept the lookup for version number and name), added keep_nw option, fixed various small bugs.
 - 2013-09-09    fixed accidential deletion of nw.exe on windows builds, adding several improvements, opt in for timestamped builds, using version and name from package.json to name the build product and build dir, renamed download directory to `cache`, added merge from package.json options for nodewebkit (no need to add configuration to Gruntfile, but stays optional)
 - 2013-08-20    fix for the unzip lib
 - 2013-08-13    initial release
