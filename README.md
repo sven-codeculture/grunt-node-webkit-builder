@@ -66,6 +66,19 @@ Default value: `true`
 
 Do you want to download and build a windows version
 
+#### options.win_ico
+Type: `String`
+Default value: `null`
+
+WIN ONLY: The path to your .ico file. If you don't provide an Icon, it will use the default node-webkit icon.
+Be aware to set the path to the [ResourceHacker](http://www.angusj.com/resourcehacker/) as well (-->> ``options.res_hacker``)
+
+#### options.res_hacker
+Type: `String`
+Default value: `null`
+
+WIN ONLY: This [Tool](http://www.angusj.com/resourcehacker/) is needed to change the Application Icon of the Windows-Version automatically. Enter the path to the `ResHacker.exe` file here. If you are deploying on a linux or mac host, you will need [wine](http://www.winehq.org/) as well.
+
 #### options.mac
 Type: `Boolean`
 Default value: `true`

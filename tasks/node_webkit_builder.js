@@ -44,7 +44,9 @@ module.exports = function(grunt) {
           timestamped_builds: false,
           credits: false,
           keep_nw: false,
-          zip: false  // Do not zip app.nw on OS X
+          zip: false,  // Do not zip app.nw on OS X
+          win_ico: null,
+          res_hacker: null
       }),
       webkitFiles = [{
         'url': "v%VERSION%/node-webkit-v%VERSION%-win-ia32.zip",
@@ -251,7 +253,8 @@ module.exports = function(grunt) {
             releasePathApp,
             zipFile,
             plattform.type,
-            (plattform.type !== 'mac' ? path.resolve(plattform.dest, plattform.nwpath) : null)
+            (plattform.type !== 'mac' ? path.resolve(plattform.dest, plattform.nwpath) : null),
+            (plattform.type==='win' ? { ico: options.win_ico, resHacker:options.res_hacker } : {})
           )
           );
         }
