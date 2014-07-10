@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       package_path = false,
       downloadDone = [],
       options = this.options({
-          version: 'v0.10.0-rc1',
+          version: '0.10.0-rc1',
           app_name: null,
           app_version: null,
           build_dir: null, // Path where
