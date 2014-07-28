@@ -180,7 +180,7 @@ module.exports = function(grunt) {
 
         });
 
-        grunt.copyFile(folder,dest);
+        grunt.copy(folder,dest);
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
         unzipDone.resolve();
