@@ -190,9 +190,8 @@ module.exports = function(grunt) {
                     //grunt.log.writeln(entry);
                     var oldFile=folder[0]+'/'+entry;
                     var newFile=dest+'/'+entry;
-                    fse.copySync(oldFile,newFile,function(err) {
-                        if(err) grunt.log.writeln(err);
-                    })
+                    var err=fse.copySync(oldFile,newFile);
+                    if(err) grunt.log.writeln(err);
                 })
             }
             else
