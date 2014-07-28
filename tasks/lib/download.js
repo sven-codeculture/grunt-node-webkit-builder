@@ -148,6 +148,9 @@ module.exports = function(grunt) {
         var _zipReader = ZIP.Reader(fs.readFileSync(file)),
             unzipDone = Q.defer();
 
+        //get folder name
+        var folder=file.split(".zip");
+
         grunt.log.writeln('Unzipping: ' + file);
 
         _zipReader.forEach(function(entry) {
@@ -177,6 +180,7 @@ module.exports = function(grunt) {
 
         });
 
+        grunt.copyFile(folder,dest);
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
         unzipDone.resolve();
