@@ -65,14 +65,14 @@ module.exports = function(grunt) {
       }, {
         'url': "v%VERSION%/node-webkit-v%VERSION%-linux-ia32.tar.gz",
         'type': 'linux32',
-        'files': ['nw', 'nw.pak', 'libffmpegsumo.so'],
+        'files': ['nw', 'nw.pak', 'libffmpegsumo.so', 'icudtl.dat'],
         'nwpath': 'nw',
         'app': '%APPNAME%',
         'exclude': ['nwsnapshot']
       }, {
         'url': "v%VERSION%/node-webkit-v%VERSION%-linux-x64.tar.gz",
         'type': 'linux64',
-        'files': ['nw', 'nw.pak', 'libffmpegsumo.so'],
+        'files': ['nw', 'nw.pak', 'libffmpegsumo.so', 'icudtl.dat'],
         'nwpath': 'nw',
         'app': '%APPNAME%',
         'exclude': ['nwsnapshot']
