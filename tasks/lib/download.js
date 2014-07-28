@@ -201,9 +201,6 @@ module.exports = function(grunt) {
             }
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
-        setTimeout(function(){
-            grunt.log.writeln('timeout done');
-        },2000);
         unzipDone.resolve();
         return unzipDone.promise;
     };
