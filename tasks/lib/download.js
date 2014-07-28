@@ -149,6 +149,7 @@ module.exports = function(grunt) {
             unzipDone = Q.defer();
 
         grunt.log.writeln('Unzipping: ' + file);
+        grunt.log.writeln('Filename: ' + dest);
 
         _zipReader.forEach(function(entry) {
             var mode = entry.getMode(),
@@ -158,7 +159,6 @@ module.exports = function(grunt) {
                 fileName = path.normalize(fileName.replace(removeFromPath, ''));
             }
 
-            grunt.log.writeln('Filename: ' + fileName);
             // Log unpacking
             grunt.verbose.writeln('Unpacking ' + entry.getName() + ' --> ' + fileName);
 
