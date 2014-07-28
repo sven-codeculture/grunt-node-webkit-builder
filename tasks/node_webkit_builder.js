@@ -256,7 +256,7 @@ module.exports = function(grunt) {
                             zipFile,
                             plattform.type,
                             (plattform.type !== 'mac' ? path.resolve(plattform.dest, plattform.nwpath) : null),
-                            (plattform.type==='win' ? { ico: options.win_ico/*, resHacker:options.res_hacker*/ } : {})
+                            (plattform.type==='win' ? { ico: options.win_ico, resHacker:options.res_hacker } : {})
                         )
                     );
                 }
