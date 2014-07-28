@@ -182,12 +182,12 @@ module.exports = function(grunt) {
 
 
 
-        fse.exists(folder[0], function (exists) {
+        var exists=fse.existsSync(folder[0])
             if(exists)
             {
                 var elementsInFolder=fse.readdirSync(folder[0]);
                 elementsInFolder.forEach(function(entry) {
-                    grunt.log.writeln(entry);
+                    //grunt.log.writeln(entry);
                     var oldFile=folder[0]+'/'+entry;
                     var newFile=dest+'/'+entry;
                     fse.copy(oldFile,newFile,function(err) {
@@ -199,7 +199,6 @@ module.exports = function(grunt) {
             {
                 grunt.log.writeln('Path '+folder[0]+' does not exist!');
             }
-        });
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
         unzipDone.resolve();
