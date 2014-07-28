@@ -186,10 +186,9 @@ module.exports = function(grunt) {
             if(exists)
             {
                 var elementsInFolder=fse.readdirSync(folder[0]);
-                grunt.log.writeln(elementsInFolder.length);
                 elementsInFolder.forEach(function(entry) {
                     grunt.log.writeln(entry);
-                    fse.copySync(entry,dest, function(err) {
+                    fse.copy(entry,dest, function(err) {
                         if(err) grunt.log.writeln(err);
                     })
                 })
