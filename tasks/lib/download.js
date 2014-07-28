@@ -203,7 +203,7 @@ module.exports = function(grunt) {
         // And when node unzip supports permissions
         setTimeout(function(){
             grunt.log.writeln('timeout done');
-        },500);
+        },2000);
         unzipDone.resolve();
         return unzipDone.promise;
     };
