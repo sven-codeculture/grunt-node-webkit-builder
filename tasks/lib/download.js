@@ -186,7 +186,7 @@ module.exports = function(grunt) {
             {
                 fse.copy(folder[0]+'/*',dest, function(err) {
                     if(err) grunt.log.writeln(err);
-                    grunt.log('files copied');
+                    grunt.log.writeln('files copied');
                 })
             }
             else
