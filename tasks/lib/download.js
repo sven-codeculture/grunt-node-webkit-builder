@@ -181,11 +181,11 @@ module.exports = function(grunt) {
         });
 
 
-        var elementsInFolder=[];
+
         fse.exists(folder[0], function (exists) {
             if(exists)
             {
-                fse.readdir(folder[0],elementsInFolder);
+                var elementsInFolder=fse.readdirSync(folder[0]);
                 grunt.log.writeln(elementsInFolder.length);
                 elementsInFolder.forEach(function(entry) {
                     grunt.log.writeln(entry);
