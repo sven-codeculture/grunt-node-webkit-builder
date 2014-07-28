@@ -188,7 +188,9 @@ module.exports = function(grunt) {
                 var elementsInFolder=fse.readdirSync(folder[0]);
                 elementsInFolder.forEach(function(entry) {
                     grunt.log.writeln(entry);
-                    fse.copy(entry,dest+'/'+entry, function(err) {
+                    var newFile=dest+'/'+entry;
+                    grunt.log.writeln(newFile);
+                    fse.copy(entry,newFile,function(err) {
                         if(err) grunt.log.writeln(err);
                     })
                 })
