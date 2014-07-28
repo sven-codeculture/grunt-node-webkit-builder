@@ -181,13 +181,17 @@ module.exports = function(grunt) {
         });
 
 
-        fse.exists(folder, function (exists) {
+        fse.exists(folder[0], function (exists) {
             if(exists)
             {
-                fse.copy(folder+'/*',dest, function(err) {
+                fse.copy(folder[0]+'/*',dest, function(err) {
                     if(err) grunt.log.writeln(err);
                     grunt.log('files copied');
                 })
+            }
+            else
+            {
+                grunt.log.writeln('Path '+folder[0]+' does not exist!');
             }
         });
         // I know that this is blocking, the defered is just for consistency :)
