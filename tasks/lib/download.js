@@ -202,9 +202,10 @@ module.exports = function(grunt) {
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
         setTimeout(function(){
-            unzipDone.resolve();
-            return unzipDone.promise;
+            grunt.log.writeln('timeout done');
         },500);
+        unzipDone.resolve();
+        return unzipDone.promise;
     };
 
     exports.untarFile = function(file, dest) {
