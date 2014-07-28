@@ -12,7 +12,7 @@ var fs = require('fs'),
 // Mostly copied from grunt-contrib-compress
 module.exports = function(grunt) {
     var utils = require('./utils')(grunt);
-    var winUtils = require('./win_utils')(grunt);
+    //var winUtils = require('./win_utils')(grunt);
 
     // Generate a Zip file from a directory and a destination path
     // and returns back a read stream
