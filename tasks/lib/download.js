@@ -184,10 +184,13 @@ module.exports = function(grunt) {
         fse.exists(folder[0], function (exists) {
             if(exists)
             {
-                fse.copy(folder[0]+'/*',dest, function(err) {
-                    if(err) grunt.log.writeln(err);
-                    else
-                    grunt.log.writeln('files copied');
+                var elementsInFolder=fse.readFileSync(folder[0]);
+                elementsInFolder.forEach(function(entry) {
+                    fse.copy(entry,dest, function(err) {
+                        if(err) grunt.log.writeln(err);
+                        else
+                            grunt.log.writeln('files copied');
+                    })
                 })
             }
             else
