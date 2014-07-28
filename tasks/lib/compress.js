@@ -88,15 +88,15 @@ module.exports = function(grunt) {
             if(type.indexOf('linux') !== -1) {
                 fs.chmodSync(relaseFile, '0755');
             }
-            /*if(type.indexOf('win') !== -1) {
+            if(type.indexOf('win') !== -1) {
                 if(winOptions.ico && winOptions.resHacker) {
                     winUtils.replaceIcon(winOptions.resHacker, relaseFile, winOptions.ico).then(function() {releaseDone.resolve(type);}, function(err) { grunt.log.error(err);});
                 } else {
                     releaseDone.resolve(type);
                 }
             } else {
-            }*/
-            releaseDone.resolve(type);
+               releaseDone.resolve(type);
+            }
         });
 
         if(type === 'mac') {
