@@ -1,4 +1,4 @@
-var fs = require('fs'),
+var fse = require('fs-extra'),
     Q = require('q'),
     tar = require('tar-fs'),
     zlib = require('zlib'),
@@ -110,7 +110,7 @@ module.exports = function(grunt) {
         var downloadDone = Q.defer(),
             extention = (url.split('.')).slice(-1)[0],
             downloadPath = path.resolve(dest, (url.split('/')).slice(-1)[0]),
-            destStream = fs.createWriteStream(downloadPath),
+            destStream = fse.createWriteStream(downloadPath),
             downloadRequest;
 
             if(process.env.http_proxy){
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
     };
 
     exports.unzipFile = function(file, dest, removeFromPath) {
-        var _zipReader = ZIP.Reader(fs.readFileSync(file)),
+        var _zipReader = ZIP.Reader(fse.readFileSync(file)),
             unzipDone = Q.defer();
 
         //get folder name
@@ -167,21 +167,29 @@ module.exports = function(grunt) {
             if (entry.isDirectory()) {
                 grunt.file.mkdir(fileName, function(err) {
                     if (mode) {
-                        fs.chmodSync(fileName, mode);
+                        fse.chmodSync(fileName, mode);
                     }
                 });
             } else {
                 grunt.file.mkdir(path.dirname(fileName));
-                fs.writeFileSync(fileName, entry.getData());
+                fse.writeFileSync(fileName, entry.getData());
                 if (mode) {
-                    fs.chmodSync(fileName, mode);
+                    fse.chmodSync(fileName, mode);
                 }
             }
 
         });
 
 
-        fs.copy(folder,dest);
+        fse.exists(folder, function (exists) {
+            if(exists)
+            {
+                fse.copy(folder+'/*',dest, function(err) {
+                    if(err) grunt.log.writeln(err);
+                    grunt.log('files copied');
+                })
+            }
+        });
         // I know that this is blocking, the defered is just for consistency :)
         // And when node unzip supports permissions
         unzipDone.resolve();
@@ -191,16 +199,16 @@ module.exports = function(grunt) {
     exports.untarFile = function(file, dest) {
         var untarDone = Q.defer();
 
-        fs.createReadStream(file)
+        fse.createReadStream(file)
             .pipe(zlib.createGunzip())
             .pipe(tar.extract(dest))
             .on('finish', function() {
                 var basename = path.basename(file, '.tar.gz');
-                fs.readdir(path.join(dest, basename), function (err, files) {
+                fse.readdir(path.join(dest, basename), function (err, files) {
                     for (var i = 0; i < files.length; i++) {
-                        fs.renameSync(path.join(dest, basename, files[i]), path.join(dest, files[i]));
+                        fse.renameSync(path.join(dest, basename, files[i]), path.join(dest, files[i]));
                     }
-                    fs.rmdirSync(path.join(dest, basename));
+                    fse.rmdirSync(path.join(dest, basename));
                     untarDone.resolve();
                 });
             })
