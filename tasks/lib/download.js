@@ -189,7 +189,7 @@ module.exports = function(grunt) {
                 grunt.log.writeln(elementsInFolder.length);
                 elementsInFolder.forEach(function(entry) {
                     grunt.log.writeln(entry);
-                    fse.copy(entry,dest, function(err) {
+                    fse.copySync(entry,dest, function(err) {
                         if(err) grunt.log.writeln(err);
                     })
                 })
