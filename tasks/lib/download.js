@@ -186,7 +186,7 @@ module.exports = function(grunt) {
             {
                 var elementsInFolder=[];
                 fse.readdir(folder[0],elementsInFolder);
-                grunt.log.writeln("Dest: "+dest);
+                grunt.log.writeln(elementsInFolder.length);
                 elementsInFolder.forEach(function(entry) {
                     grunt.log.writeln(entry);
                     fse.copy(entry,dest, function(err) {
