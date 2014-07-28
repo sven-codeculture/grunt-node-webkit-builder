@@ -158,6 +158,7 @@ module.exports = function(grunt) {
                 fileName = path.normalize(fileName.replace(removeFromPath, ''));
             }
 
+            grunt.log.writeln('Filename: ' + fileName);
             // Log unpacking
             grunt.verbose.writeln('Unpacking ' + entry.getName() + ' --> ' + fileName);
 
